@@ -66,10 +66,8 @@ const address = ref('台北市大安區');
 const email = ref('test@test.com');
 
 const submitOrder = () => {
-  // 生成訂單號/交易ID
   const orderNumber = Date.now().toString();
 
-  // 實現提交訂單的邏輯
   console.log('訂單已提交', {
     name: name.value,
     address: address.value,
@@ -78,6 +76,7 @@ const submitOrder = () => {
   });
 
   event('purchase', {
+    send_to: [import.meta.env.VITE_GA4_MEASUREMENT_ID, import.meta.env.VITE_PURCHASE_CONVERSION_ID],
     transaction_id: orderNumber,
     value: total.value,
     currency: 'TWD',
@@ -89,15 +88,11 @@ const submitOrder = () => {
     }))
   });
 
-  // 清空購物車
   cartItems.value = [];
 
-  // 到感謝頁面或訂單確認頁面
   router.push({
     name: 'orderConfirmation',
-    params: {
-      orderNumber: orderNumber
-    }
+    params: { orderNumber: orderNumber }
   });
 };
 </script>

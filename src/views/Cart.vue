@@ -104,8 +104,18 @@ const checkout = () => {
   if (cartItems.value.length > 0) {
     router.push({ name: 'checkout' });
     event('begin_checkout', {
-      items: cartItems.value,
-      value: total.value
+      send_to: [
+        import.meta.env.VITE_GA4_MEASUREMENT_ID,
+        import.meta.env.VITE_BEGINCHECKOUT_CONVERSION_ID
+      ],
+      items: cartItems.value.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      })),
+      value: total.value,
+      currency: 'TWD'
     });
   } else {
     alert('購物車是空的,請先添加商品');

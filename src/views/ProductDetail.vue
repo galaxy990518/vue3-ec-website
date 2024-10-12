@@ -34,7 +34,13 @@ onMounted(() => {
 
   if (product.value) {
     event('view_item', {
-      items: [{ id: product.value.id, name: product.value.name, price: product.value.price }]
+      send_to: [
+        import.meta.env.VITE_GA4_MEASUREMENT_ID,
+        import.meta.env.VITE_VIEWITEM_CONVERSION_ID
+      ],
+      items: [{ id: product.value.id, name: product.value.name, price: product.value.price }],
+      value: product.value.price,
+      currency: 'TWD'
     });
   }
 });
@@ -43,9 +49,17 @@ const addToCart = () => {
   if (product.value) {
     addToCartGlobal(product.value);
     console.log('添加到購物車:', product.value);
+
     event('add_to_cart', {
-      items: [{ id: product.value.id, name: product.value.name, price: product.value.price }]
+      send_to: [
+        import.meta.env.VITE_GA4_MEASUREMENT_ID,
+        import.meta.env.VITE_ADDTOCART_CONVERSION_ID
+      ],
+      items: [{ id: product.value.id, name: product.value.name, price: product.value.price }],
+      value: product.value.price,
+      currency: 'TWD'
     });
+
     alert(`${product.value.name} 已添加到購物車`);
   }
 };

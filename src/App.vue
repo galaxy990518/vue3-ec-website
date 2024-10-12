@@ -37,9 +37,6 @@
 
 <script setup>
 import { ref, computed, provide } from 'vue';
-import { useGtag } from 'vue-gtag-next';
-
-const { event } = useGtag();
 
 const cartItems = ref([]);
 provide('cartItems', cartItems);
@@ -63,16 +60,6 @@ const addToCart = (product) => {
 };
 
 provide('addToCart', addToCart);
-
-const trackEvent = (action, category, label, value) => {
-  event(action, {
-    event_category: category,
-    event_label: label,
-    value: value
-  });
-};
-
-defineExpose({ trackEvent });
 </script>
 
 <style>

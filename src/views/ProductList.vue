@@ -48,17 +48,22 @@ const products = ref(PRODUCTS);
 
 const viewProduct = (id) => {
   router.push({ name: 'productDetail', params: { id } });
-  event('view_item', {
-    items: [{ id: id, name: `商品${id}` }]
-  });
 };
 
 const addToCart = (product) => {
   addToCartGlobal(product);
   console.log('添加到購物車:', product);
+
   event('add_to_cart', {
-    items: [{ id: product.id, name: product.name, price: product.price }]
+    send_to: [
+      import.meta.env.VITE_GA4_MEASUREMENT_ID,
+      import.meta.env.VITE_ADDTOCART_CONVERSION_ID
+    ],
+    items: [{ id: product.id, name: product.name, price: product.price }],
+    value: product.price,
+    currency: 'TWD'
   });
+
   alert(`${product.name} 已添加到購物車`);
 };
 </script>
